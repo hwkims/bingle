@@ -1,35 +1,45 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>검색 결과</title>
+  <title>Search Results</title>
   <style>
     iframe {
-      width: 100%;
+      width: 30%;
       height: 500px;
       border: none;
+      float: right;
     }
   </style>
 </head>
 <body>
-  <h1>검색 결과</h1>
-  <input id="search-input" type="text" placeholder="검색어를 입력하세요">
-  <button id="search-button">검색</button>
+  <h1>Search Results</h1>
+  <input id="search-input" type="text" placeholder="Search query">
+  <button id="search-button">Search</button>
   <div id="search-results">
-    <iframe id="bing-iframe" src="" frameborder="0"></iframe>
-    <iframe id="google-iframe" src="" frameborder="0"></iframe>
+    <div id="google-results"></div>
+    <div id="bing-results"></div>
   </div>
 
   <script>
     const searchInput = document.getElementById('search-input');
     const searchButton = document.getElementById('search-button');
-    const bingIframe = document.getElementById('bing-iframe');
-    const googleIframe = document.getElementById('google-iframe');
+    const googleResultsDiv = document.getElementById('google-results');
+    const bingResultsDiv = document.getElementById('bing-results');
 
     searchButton.addEventListener('click', () => {
       const searchQuery = searchInput.value.trim();
       if (searchQuery !== '') {
-        bingIframe.src = `https://www.bing.com/search?q=${searchQuery}`;
-        googleIframe.src = `https://www.google.com/search?q=${searchQuery}`;
+        // Use Google as the main search engine in an iframe
+        googleResultsDiv.innerHTML = `
+  <h2>Google Results</h2>
+  <iframe src="https://www.google.com/search?q=${searchQuery}&robots=0" frameborder="0" width="100%" height="500"></iframe>
+`;
+
+        // Use Bing as a secondary search engine in an iframe
+        bingResultsDiv.innerHTML = `
+          <h2>Bing Results</h2>
+          <iframe src="https://www.bing.com/search?q=${searchQuery}" frameborder="0" width="100%" height="500"></iframe>
+        `;
       }
     });
   </script>
